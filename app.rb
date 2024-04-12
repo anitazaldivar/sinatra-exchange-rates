@@ -20,12 +20,10 @@ get("/") do
   results_array = parsed_api_data.fetch("currencies")
 
   @symbols = []
-  @currencies = []
   results_array.each do |key, value|
     a_symbol = key
     a_currency = value
     @symbols.push(a_symbol)
-    @currencies.push(a_currency)
   end
   
   erb(:homepage)
@@ -36,7 +34,20 @@ get("/:from_currency") do
 
   api_url = "https://api.exchangerate.host/list?access_key=#{ENV["EXCHANGE_RATE_KEY"]}"
   
-  pp @original_currency
+  raw_api_data = HTTP.get(api_url)
+  
+  raw_api_data_string = raw_api_data.to_s
+
+  parsed_api_data = JSON.parse(raw_api_data_string)
+  
+  results_array = parsed_api_data.fetch("currencies")
+
+  @symbols = []
+  results_array.each do |key, value|
+    a_symbol = key
+    a_currency = value
+    @symbols.push(a_symbol)
+  end
   
   erb(:from_currency)
   # some more code to parse the URL and render a view template

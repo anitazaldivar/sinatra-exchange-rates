@@ -5,17 +5,9 @@
 <ul>
   <% @symbols.each do |a_symbol| %>
     <li>
-      <a href="/<%= a_symbol %>">
-        Convert 1 <%= a_symbol %> to...
+      <a href="/<%= @original_currency %>/<%= a_symbol %>">
+        Convert 1 <%= @original_currency %> to <%= a_symbol %>
       </a>
     </li>
   <% end %>
-</ul>
-
-<ul>
-    <li>
-      <a href="/<%= @original_currency %>/USD">
-        Convert 1 <%= @original_currency %> to USD
-      </a>
-    </li>
 </ul>
