@@ -1,0 +1,10 @@
+<h1>Currency pairs</h1>
+
+<ul>
+  <% @symbols.each do |a_symbol| %>
+    <li>
+      <a href="/<% a_symbol %>">
+        Convert 1 <%= a_symbol %> to...
+      </a>
+    </li>
+</ul>
