@@ -2,6 +2,11 @@ require "sinatra"
 require "sinatra/reloader"
 require "http"
 require "json"
+require "better_errors"
+require "binding_of_caller"
+use(BetterErrors::Middleware)
+BetterErrors.application_root = __dir__
+BetterErrors::Middleware.allow_ip!('0.0.0.0/0.0.0.0')
 
 get("/") do
   api_url = "https://api.exchangerate.host/list?access_key=#{ENV["EXCHANGE_RATE_KEY"]}"
@@ -14,12 +19,16 @@ get("/") do
   
   results_array = parsed_api_data.fetch("currencies")
 
-  results_array.each do |a_symbol, a_currency|
-    pp "Symbol: #{a_symbol}"
-    pp "Currency: #{a_currency}"
+  @symbols = []
+  @currencies = []
+  results_array.each do |key, value|
+    a_symbol = key
+    a_currency = value
+    @symbols.push(a_symbol)
+    @currencies.push(a_currency)
   end
- 
-  #erb(:homepage)
+  
+  erb(:homepage)
 end
 
 get("/:from_currency") do
